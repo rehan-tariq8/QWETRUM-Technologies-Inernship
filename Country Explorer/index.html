@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Explorer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>🌍 Country Explorer</h1>
+            <p>Discover countries around the world</p>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search country..."
+            >
+        </header>
+
+        <div id="loader" class="loader"></div>
+
+        <div id="errorMessage" class="error-message"></div>
+
+        <div id="countriesContainer" class="countries-grid"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
