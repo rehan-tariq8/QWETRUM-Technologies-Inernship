@@ -98,21 +98,6 @@ Open the `index.html` file in your preferred browser or use the **Live Server** 
 
 ---
 
-## 📸 Screenshots
-
-### 🖥️ Desktop View
-
-* Hero section with navigation and CTA button
-* Feature cards displayed in a multi-column layout
-
-### 📱 Mobile View
-
-* Fully responsive layout optimized for smaller screens
-
-*(Add screenshots here before publishing the repository.)*
-
----
-
 ## 📚 Learning Outcomes
 
 Through this project, I gained practical experience in:
