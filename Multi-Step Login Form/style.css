@@ -1,0 +1,670 @@
+/* ============================================================
+   style.css — Multi-Step Registration Page
+   Design: Deep royal blue background + glassmorphism card
+   Matching original screenshot aesthetic exactly
+   ============================================================ */
+
+/* ── 1. Variables ─────────────────────────────────────────── */
+:root {
+  /* Blues matching the screenshot */
+  --bg-deep:       #0a2380;
+  --bg-mid:        #0d2fa8;
+  --bg-bright:     #1a4fd8;
+  --glass-bg:      rgba(255, 255, 255, 0.10);
+  --glass-border:  rgba(255, 255, 255, 0.18);
+  --glass-hover:   rgba(255, 255, 255, 0.14);
+
+  /* Field */
+  --field-bg:      rgba(255, 255, 255, 0.95);
+  --field-border:  rgba(255, 255, 255, 0.6);
+  --field-focus:   #4da3ff;
+  --field-radius:  8px;
+
+  /* Text */
+  --text-white:    #ffffff;
+  --text-soft:     rgba(255, 255, 255, 0.75);
+  --text-muted:    rgba(255, 255, 255, 0.50);
+  --text-dark:     #1a1a2e;
+
+  /* Accents */
+  --btn-bg:        #0d2260;
+  --btn-hover:     #091a4d;
+  --green:         #22c87a;
+  --red:           #ff6b6b;
+  --orange:        #f5a623;
+
+  /* Sizes */
+  --card-radius:   20px;
+  --gap:           1rem;
+
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── 2. Reset / Base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-white);
+  background: var(--bg-mid);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { color: rgba(255,255,255,0.9); text-decoration: none; }
+a:hover { color: #fff; text-decoration: underline; }
+
+/* ── 3. Animated background ───────────────────────────────── */
+.bg-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: linear-gradient(140deg, #0a1f8f 0%, #0d2fa8 40%, #0a2380 70%, #071870 100%);
+}
+
+/* Large radial blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: blobFloat 18s ease-in-out infinite alternate;
+}
+.blob-tl {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(30,79,224,0.7) 0%, rgba(10,35,128,0.2) 70%);
+  top: -200px; left: -200px;
+  animation-duration: 20s;
+}
+.blob-tr {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(100,149,255,0.5) 0%, rgba(13,47,168,0.1) 70%);
+  top: -100px; right: -100px;
+  animation-duration: 16s;
+  animation-delay: -6s;
+}
+.blob-bl {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(26,79,216,0.6) 0%, transparent 70%);
+  bottom: -120px; left: -80px;
+  animation-duration: 22s;
+  animation-delay: -10s;
+}
+.blob-br {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(77,163,255,0.4) 0%, transparent 70%);
+  bottom: 5%; right: 5%;
+  animation-duration: 14s;
+  animation-delay: -3s;
+}
+
+@keyframes blobFloat {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(30px,25px) scale(1.06); }
+}
+
+/* Squiggly decorative shapes (like in screenshot) */
+.deco {
+  position: absolute;
+  border-radius: 40px;
+  opacity: 0.25;
+}
+.deco-1 {
+  width: 120px; height: 30px;
+  background: rgba(150,190,255,0.6);
+  top: 18%; left: 6%;
+  transform: rotate(-20deg) skewX(-10deg);
+  filter: blur(2px);
+}
+.deco-2 {
+  width: 90px; height: 22px;
+  background: rgba(150,190,255,0.5);
+  top: 24%; left: 9%;
+  transform: rotate(-20deg) skewX(-10deg);
+  filter: blur(2px);
+}
+.deco-3 {
+  width: 100px; height: 25px;
+  background: rgba(150,190,255,0.45);
+  bottom: 22%; right: 7%;
+  transform: rotate(15deg) skewX(8deg);
+  filter: blur(2px);
+}
+.deco-4 {
+  width: 70px; height: 18px;
+  background: rgba(150,190,255,0.4);
+  bottom: 28%; right: 10%;
+  transform: rotate(15deg) skewX(8deg);
+  filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
+}
+
+/* ── 4. Page wrapper ──────────────────────────────────────── */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 0;
+  min-height: 100vh;
+}
+
+/* ── 5. Glass card ────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  padding: 2rem 2rem 1.5rem;
+  width: 100%;
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* ── 6. Logo area ─────────────────────────────────────────── */
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.01em;
+}
+
+/* ── 7. Step indicator ────────────────────────────────────── */
+.step-indicator {
+  width: 100%;
+}
+
+.step-track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.step-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.55);
+  border: 2px solid rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+  cursor: default;
+  position: relative;
+  z-index: 1;
+}
+
+.step-dot.active {
+  background: #fff;
+  color: var(--bg-mid);
+  border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.15);
+}
+
+.step-dot.done {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+
+/* Checkmark for done steps */
+.step-dot.done::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 11' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5.5l4 4L13 1' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 13px no-repeat;
+}
+
+/* Hide text digit when done */
+.step-dot.done { font-size: 0; }
+
+.step-lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.step-dot.active ~ .step-lbl,
+.step-item:has(.step-dot.active) .step-lbl {
+  color: rgba(255,255,255,0.9);
+}
+
+/* Connector line between steps */
+.step-connector {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.2);
+  margin-top: 15px; /* align to center of dot */
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 2px;
+  transition: background 0.4s ease;
+  max-width: 80px;
+}
+
+.step-connector.done {
+  background: var(--green);
+}
+
+/* ── 8. Form steps ────────────────────────────────────────── */
+.form-step { animation: stepIn 0.28s ease; }
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.step-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 1.1rem;
+  letter-spacing: -0.01em;
+}
+
+/* ── 9. Form fields ───────────────────────────────────────── */
+.field-group { margin-bottom: 0.85rem; }
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-soft);
+  margin-bottom: 5px;
+}
+
+.field-wrap { position: relative; }
+
+.field-wrap--icon-right .field-input {
+  padding-right: 42px;
+}
+
+.field-input {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--field-bg);
+  border: 1.5px solid transparent;
+  border-radius: var(--field-radius);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field-input::placeholder { color: #9ca3af; }
+
+.field-input:hover { border-color: rgba(100,149,255,0.4); }
+
+.field-input:focus {
+  border-color: var(--field-focus);
+  box-shadow: 0 0 0 3px rgba(77,163,255,0.25);
+}
+
+/* Validation states */
+.field-input.is-valid   { border-color: var(--green); }
+.field-input.is-invalid { border-color: var(--red); background: #fff8f8; }
+
+/* Field error message */
+.field-error {
+  font-size: 12px;
+  color: #ffb3b3;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
+/* Eye toggle button */
+.eye-btn {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.eye-btn:hover { color: #1a1a2e; }
+.eye-btn:focus-visible { outline: 2px solid var(--field-focus); }
+
+/* ── 10. Password strength ────────────────────────────────── */
+.strength-bar {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+
+.strength-seg {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s ease;
+}
+
+.strength-seg.weak   { background: var(--red); }
+.strength-seg.fair   { background: var(--orange); }
+.strength-seg.strong { background: var(--green); }
+
+.strength-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  min-height: 14px;
+}
+
+/* ── 11. Buttons ──────────────────────────────────────────── */
+
+/* Next / primary button */
+.btn-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  background: var(--btn-bg);
+  border: none;
+  border-radius: 9px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+.btn-next:hover:not(:disabled) { background: var(--btn-hover); }
+.btn-next:active:not(:disabled) { transform: scale(0.97); }
+.btn-next:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-next:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* Back button */
+.btn-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 9px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-back:hover { background: rgba(255,255,255,0.16); }
+.btn-back:active { transform: scale(0.97); }
+.btn-back:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* Submit button with spinner */
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  background: var(--btn-bg);
+  border: none;
+  border-radius: 9px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-submit:hover:not(:disabled) { background: var(--btn-hover); }
+.btn-submit:active:not(:disabled) { transform: scale(0.97); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-submit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.btn-spinner {
+  display: none;
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+.btn-submit.loading .btn-label { opacity: 0.7; }
+.btn-submit.loading .btn-spinner { display: inline-block; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 12. Success banner ───────────────────────────────────── */
+.success-banner {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  background: rgba(34,200,122,0.15);
+  border: 1px solid rgba(34,200,122,0.35);
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #86efca;
+  margin-bottom: 1rem;
+  animation: stepIn 0.25s ease;
+}
+
+/* ── 13. Confirmation summary ─────────────────────────────── */
+.confirm-table { border-radius: 10px; overflow: hidden; }
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.confirm-row.last { border-bottom: none; }
+
+.confirm-key {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.confirm-val {
+  font-size: 13.5px;
+  color: var(--text-white);
+  font-weight: 500;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* ── 14. OR divider ───────────────────────────────────────── */
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 1.25rem 0 1rem;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.or-divider::before,
+.or-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* ── 15. OAuth buttons ────────────────────────────────────── */
+.oauth-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.oauth-btn {
+  width: 52px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+}
+.oauth-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+.oauth-btn:active { transform: scale(0.96); }
+.oauth-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ── 16. Register / sign-in prompt ───────────────────────── */
+.register-prompt {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.register-prompt a {
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+}
+.register-prompt a:hover { color: #fff; }
+
+/* ── 17. Entries table section ────────────────────────────── */
+.entries-section {
+  position: relative;
+  z-index: 1;
+  margin-top: -0.5rem;
+}
+
+.entries-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+}
+
+.entries-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin: 0;
+}
+
+.btn-clear-all {
+  background: rgba(255,107,107,0.18);
+  border: 1px solid rgba(255,107,107,0.35);
+  border-radius: 7px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffb3b3;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.btn-clear-all:hover { background: rgba(255,107,107,0.28); }
+
+.entries-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.entries-table th {
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.entries-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.85);
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.entries-table tr:last-child td { border-bottom: none; }
+
+.btn-delete {
+  background: none;
+  border: 1px solid rgba(255,107,107,0.4);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffb3b3;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.btn-delete:hover { background: rgba(255,107,107,0.15); }
+
+/* ── 18. Responsive ───────────────────────────────────────── */
+@media (max-width: 575.98px) {
+  .glass-card { padding: 1.5rem 1.25rem 1.25rem; }
+  .step-connector { max-width: 40px; }
+  .oauth-btn { width: 48px; height: 40px; }
+
+  .confirm-row { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .confirm-val { text-align: left; }
+
+  .btn-row.d-flex { flex-direction: column; }
+  .btn-next, .btn-back, .btn-submit { width: 100%; }
+}
+
+@media (max-width: 400px) {
+  .step-dot { width: 28px; height: 28px; font-size: 12px; }
+  .step-connector { max-width: 24px; margin-top: 13px; }
+  .logo-text { font-size: 16px; }
+}
+
+/* ── 19. Focus / accessibility ────────────────────────────── */
+:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: 2px; }
